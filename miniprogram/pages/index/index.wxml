@@ -1,23 +1,150 @@
 <!--index.wxml-->
+
+<wxs module="helper">
+  module.exports = {
+    formatTime: function(timer){
+      var hour = parseInt((timer / 60).toString());
+      var minute = timer % 60;
+      var str = '';
+      if (hour > 0) {
+        str = hour + '小时 '
+      }
+      if (minute > 0) {
+        str += minute + '分钟'
+      }
+      return str
+    },
+
+    ringSrc: function(item) {
+      return '/assets/' + item + '.png'
+    },
+  }
+</wxs>
 <view class="container">
-  <view class="userinfo">
-    <block wx:if="{{canIUseOpenData}}">
-      <view class="userinfo-avatar" bindtap="bindViewTap">
-        <open-data type="userAvatarUrl"></open-data>
+  <view class="top-container">
+    <view class="top-bg"></view>
+    <view class="usermotto flex justify-center item-center">
+      <text class="user-motto ">{{motto}}</text>
+    </view>
+    <block>
+      <view class="setting-container flex item-end justify-center">
+        <view class="w-full">
+            <van-cell-group inset custom-class="setting-card">
+              <van-cell title="时长"  is-link bind:click="onSelectTimer" :border="false">
+                {{helper.formatTime(timer)}}
+              </van-cell>
+              <van-cell class="bottom-setting-cell" title="铃声" is-link bind:click="onSelectRing" :border="false">
+                  <view style="margin-top: 6rpx;">
+                    <van-image
+                    wx:if="{{ring==1}}"
+                  round
+                  width="36rpx"
+                  height="36rpx"
+                  src="/assets/1.png"
+                  />
+                  <van-image
+                  wx:if="{{ring==2}}"
+                  round
+                  width="36rpx"
+                  height="36rpx"
+                  src="/assets/2.png"
+                  />
+                  <van-image
+                  wx:if="{{ring==3}}"
+                  round
+                  width="36rpx"
+                  height="36rpx"
+                  src="/assets/3.png"
+                  />
+                  <van-image
+                  wx:if="{{ring==4}}"
+                  round
+                  width="36rpx"
+                  height="36rpx"
+                  src="/assets/4.png"
+                  />
+                  </view>
+            </van-cell>
+            </van-cell-group>
+        </view>
       </view>
-      <open-data type="userNickName"></open-data>
-    </block>
-    <block wx:elif="{{!hasUserInfo}}">
-      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取头像昵称 </button>
-      <button wx:elif="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-      <view wx:else> 请使用1.4.4及以上版本基础库 </view>
-    </block>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
     </block>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
+
+  <block>
+    <view class="flex item-center justify-center player-button-container">
+      <view class="player-button flex item-center justify-center" bindtap="onTapStart">
+        <view class="player-button-inner"></view>
+      </view>
+    </view>
+  </block>
+
+
+  <van-popup show="{{ showTimer }}" bind:close="onCloseTimerSelector" position="bottom" custom-style="border-top-left-radius: 20rpx;border-top-right-radius: 20rpx;">
+    <view class="w-full h-full">
+      <view class="flex justify-center" style="padding: 20rpx 0 40rpx 0;">选择时间</view>
+      <view class="border-top ">
+        <block >
+          <van-row>
+            <van-col span="12" wx:for="{{timers}}" wx:for-item="item" wx:key="item" data-item="{{item}}" bindtap="onChangeTimer">
+              <view class="flex item-center justify-center border-bottom"  style="height: 88rpx;" >
+            <view style="margin-right: 20rpx;">{{item}}分钟</view>
+            <van-icon color="{{timer === item ? '':'gray'}}" name="success" />
+            </view>
+            </van-col>
+          </van-row>
+        </block>
+      </view>
+      <block >
+        <view class="flex item-center justify-center border-bottom" style="height: 88rpx;"  bindtap="onSelectTimerPicker">
+          <text>自定义练习时间</text>
+          <text wx:if="{{selfTime}}"> : {{helper.formatTime(timer)}}</text>
+          <van-icon wx:if="{{selfTime}}" name="success" />
+        </view>
+      </block>
+    </view>
+  </van-popup>
+
+  <van-popup show="{{ showTimerPicker }}" bind:close="onCloseTimerPciker" position="bottom" custom-style="border-top-left-radius: 20rpx;border-top-right-radius: 20rpx;">
+    <van-datetime-picker
+      type="time"
+      value="{{ currentDate }}"
+      min-hour="{{ timerPicker.minHour }}"
+      max-hour="{{ timerPicker.maxHour }}"
+      bind:confirm="onInput"
+      bind:cancel="onCloseTimerPciker"
+      formatter="{{ formatter }}"
+    />
+  </van-popup>
+
+  <van-popup show="{{ showRing }}" bind:close="onCloseSelectRing" position="bottom" custom-style="border-top-left-radius: 20rpx;border-top-right-radius: 20rpx;">
+  <view>
+    <view class="flex justify-center" style="padding: 20rpx 0 40rpx 0;">选择铃声</view>
+    <view>
+      <van-row>
+        <van-col span="6" wx:for="{{rings}}" wx:for-item="item" wx:key="item" data-item="{{item}}" bindtap="onOverviewRing">
+          <view class="flex flex-col" style="padding: 40rpx 0;">
+            <view class="flex justify-center">
+              <van-image
+              round
+              width="120rpx"
+              height="120rpx"
+              src="/assets/1.png"
+            />
+            </view>
+           <view class="flex justify-center" wx:if="{{item == selectedRing}}" style="padding-top: 10rpx;">
+            <view class="ring-check-icon flex justify-center item-center" >
+              <van-icon color="white" name="success" />
+            </view>    
+            </view>      
+          </view>
+        </van-col>
+      </van-row>
+    </view>
+    <view style="padding: 20rpx 20rpx;">
+      <van-button type="primary" block bind:click="onChangeRing">确定</van-button>
+    </view>
+    </view>
+  </van-popup>
+
 </view>

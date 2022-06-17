@@ -1,19 +1,65 @@
 /**index.wxss**/
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #aaa;
+
+.top-container {
+  height: 40%;
+  position: relative;
 }
 
-.userinfo-avatar {
-  overflow: hidden;
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
+.top-bg {
+  position: absolute;
+  background-color: royalblue;
+  bottom: 60rpx;
+  top: 0;
+  left: 0;
+  right: 0;
 }
 
 .usermotto {
-  margin-top: 200px;
+  height: 50%;
+  position: relative;
+}
+
+.user-motto {
+  margin-top: 100rpx;
+  color: #fff;
+}
+.setting-container {
+  height: 50%;
+}
+
+.setting-card {
+  box-shadow:
+  12px 14px 12.3px rgba(0, 0, 0, 0.021),
+  96px 112px 98px rgba(0, 0, 0, 0.07)
+;
+}
+
+.player-button-container {
+  height: 60%;
+}
+
+.player-button {
+  background-image: linear-gradient(to left, #a18cd1 0%, #fbc2eb 100%);
+  border-radius: 50%;
+  width: 180rpx;
+  height: 180rpx;
+}
+
+.player-button-inner {
+    display: block;
+    position: relative;
+    z-index: 3;
+    width: 0;
+    height: 0;
+    margin-left: 10rpx;
+    border-left: 40rpx solid #fff;
+    border-top: 24rpx solid transparent;
+    border-bottom: 24rpx solid transparent;
+}
+
+.ring-check-icon  {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background-color: green;
 }

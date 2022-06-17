@@ -1,0 +1,29 @@
+<!--pages/countdown/index.wxml-->
+<wxs module="helper">
+  module.exports = {
+    formatTime: function(timer){
+      if ((timer / 10) < 1) {
+        return '0' + timer
+      }
+      return timer
+    },
+  }
+</wxs>
+<view class="container" bindtap="onTapWake">
+  <view class="top-progress-wrap flex item-center justify-center" >
+    <van-circle value="{{ progress }}" stroke-width="6" size="200" >
+      <van-count-down class="control-count-down" use-slot time="{{ time }}" bind:change="onChange" bind:finish="onFinish" auto-start="{{false}}">
+        <text class="item">{{ helper.formatTime(timeData.hours) }}</text>
+        <text class="time-dot">:</text>
+        <text class="item">{{ helper.formatTime(timeData.minutes) }}</text>
+        <text class="time-dot">:</text>
+        <text class="item"> {{ helper.formatTime(timeData.seconds) }}</text>
+      </van-count-down>
+    </van-circle>
+  </view>
+  <view class="bottom-button-wrap flex justify-center">
+    <van-button wx:if="{{!finished}}" type="default" bind:click="onTapEnd">提前结束</van-button>
+    <van-button wx:if="{{finished}}" type="default" bind:click="onBack">返回</van-button>
+  </view>
+  <van-dialog id="van-dialog" />
+</view>
