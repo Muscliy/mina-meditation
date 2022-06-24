@@ -14,7 +14,7 @@ Page({
     showRing: false,
     selfTime: false,
     timers: [
-      2, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60,
+      5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60,
     ],
     currentDate: '01:00',
     timerPicker: {
@@ -40,7 +40,8 @@ Page({
     if (timer) {
       this.setData({
         timer,
-        ring
+        ring,
+        selectedRing: ring
       })
     }
   },
@@ -81,6 +82,7 @@ Page({
       currentDate: event.detail,
       timer: time,
       showTimerPicker: false,
+      showTimer: false,
       selfTime: true,
     })
   },

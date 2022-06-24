@@ -47,3 +47,11 @@
 .border-top {
   border-top: 1px solid #ebedf0;
 }
+
+page {
+  --button-border-radius: 8px;
+  --button-primary-background-color: #2c9678;
+  --toast-max-width: 100px;
+  --toast-background-color: pink;
+  --progress-color: #2c9678;
+}

@@ -9,9 +9,9 @@
     },
   }
 </wxs>
-<view class="container" bindtap="onTapWake">
+<view class="container countdown-container" bindtap="onTapWake">
   <view class="top-progress-wrap flex item-center justify-center" >
-    <van-circle value="{{ progress }}" stroke-width="6" size="200" >
+    <van-circle value="{{ progress }}" stroke-width="6" size="240" color="#2c9678" >
       <van-count-down class="control-count-down" use-slot time="{{ time }}" bind:change="onChange" bind:finish="onFinish" auto-start="{{false}}">
         <text class="item">{{ helper.formatTime(timeData.hours) }}</text>
         <text class="time-dot">:</text>
@@ -22,8 +22,8 @@
     </van-circle>
   </view>
   <view class="bottom-button-wrap flex justify-center">
-    <van-button wx:if="{{!finished}}" type="default" bind:click="onTapEnd">提前结束</van-button>
-    <van-button wx:if="{{finished}}" type="default" bind:click="onBack">返回</van-button>
+    <view wx:if="{{!finished}}"  bindtap="onTapEnd" style="padding: 10px 10px; color: #474b4c" >提前结束</view>
+    <view wx:if="{{finished}}"  bindtap="onBack" style="padding: 10px 10px; color: #474b4c">返回</view>
   </view>
   <van-dialog id="van-dialog" />
 </view>

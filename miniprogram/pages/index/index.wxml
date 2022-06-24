@@ -23,46 +23,24 @@
 <view class="container">
   <view class="top-container">
     <view class="top-bg"></view>
-    <view class="usermotto flex justify-center item-center">
-      <text class="user-motto ">{{motto}}</text>
+    <view class="usermotto flex justify-center item-end">
+      <text class="user-motto " style="padding: 0 0 10px 0; font-size: 20px; font-weight: 500;">{{motto}}</text>
     </view>
     <block>
       <view class="setting-container flex item-end justify-center">
         <view class="w-full">
             <van-cell-group inset custom-class="setting-card">
-              <van-cell title="时长"  is-link bind:click="onSelectTimer" :border="false">
+              <van-cell title="时长"  is-link bind:click="onSelectTimer" :border="false" size="large">
                 {{helper.formatTime(timer)}}
               </van-cell>
-              <van-cell class="bottom-setting-cell" title="铃声" is-link bind:click="onSelectRing" :border="false">
+              <van-cell class="bottom-setting-cell" title="铃声" is-link bind:click="onSelectRing" :border="false" size="large">
                   <view style="margin-top: 6rpx;">
                     <van-image
-                    wx:if="{{ring==1}}"
-                  round
-                  width="36rpx"
-                  height="36rpx"
-                  src="/assets/1.png"
-                  />
-                  <van-image
-                  wx:if="{{ring==2}}"
-                  round
-                  width="36rpx"
-                  height="36rpx"
-                  src="/assets/2.png"
-                  />
-                  <van-image
-                  wx:if="{{ring==3}}"
-                  round
-                  width="36rpx"
-                  height="36rpx"
-                  src="/assets/3.png"
-                  />
-                  <van-image
-                  wx:if="{{ring==4}}"
-                  round
-                  width="36rpx"
-                  height="36rpx"
-                  src="/assets/4.png"
-                  />
+                      round
+                      width="36rpx"
+                      height="36rpx"
+                      src="{{'/assets/' + ring + '.png'}}"
+                      />
                   </view>
             </van-cell>
             </van-cell-group>
@@ -88,7 +66,7 @@
           <van-row>
             <van-col span="12" wx:for="{{timers}}" wx:for-item="item" wx:key="item" data-item="{{item}}" bindtap="onChangeTimer">
               <view class="flex item-center justify-center border-bottom"  style="height: 88rpx;" >
-            <view style="margin-right: 20rpx;">{{item}}分钟</view>
+            <view style="margin-right: 20rpx; color:{{timer === item  ? 'black' : 'gray'}}">{{item}}分钟</view>
             <van-icon color="{{timer === item ? '':'gray'}}" name="success" />
             </view>
             </van-col>
@@ -96,9 +74,9 @@
         </block>
       </view>
       <block >
-        <view class="flex item-center justify-center border-bottom" style="height: 88rpx;"  bindtap="onSelectTimerPicker">
+        <view class="flex item-center justify-center border-bottom" style="height: 88rpx; padding-bottom: 20px; color:{{selfTime  ? 'black' : 'gray'}}"  bindtap="onSelectTimerPicker">
           <text>自定义练习时间</text>
-          <text wx:if="{{selfTime}}"> : {{helper.formatTime(timer)}}</text>
+          <text wx:if="{{selfTime}}" > : {{helper.formatTime(timer)}}</text>
           <van-icon wx:if="{{selfTime}}" name="success" />
         </view>
       </block>
@@ -129,7 +107,7 @@
               round
               width="120rpx"
               height="120rpx"
-              src="/assets/1.png"
+              src="{{'/assets/' + item + '.png'}}"
             />
             </view>
            <view class="flex justify-center" wx:if="{{item == selectedRing}}" style="padding-top: 10rpx;">

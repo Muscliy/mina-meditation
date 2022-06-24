@@ -1,5 +1,9 @@
 /* pages/countdown/index.wxss */
 
+
+.countdown-container {
+  background-color: #c7d2d4;
+}
 .top-progress-wrap {
   height: 80%;
 }
@@ -10,17 +14,16 @@
 
 .item {
   display: inline-block;
-  color: black;
-  width: 24px;
+  color: #2c9678;
+  width: 40px;
   text-align: right;
-  font-size: 22px;
-  border-radius: 2px;
+  font-size: 36px;
 }
 
 .time-dot {
   display: inline-block;
-  color: black;
-  font-size: 22px;
+  color: #2c9678;
+  font-size: 36px;
   margin: 0 5px;
 }
 

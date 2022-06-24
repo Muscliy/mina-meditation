@@ -2,9 +2,7 @@
 import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
 
 const myaudio: any = wx.createInnerAudioContext();
-const context:any = wx.getBackgroundAudioManager()
-
-const waitSecode = 3;
+const waitSecode = 4;
 Page({
 
   /**
@@ -30,7 +28,8 @@ Page({
     this.setData({
       totalTime: Number(t) * 60 + waitSecode,
       time: Number(t) * 60 * 1000 + waitSecode * 1000,
-      ring: Number(r)
+      ring: Number(r),
+      
     })
 
     wx.getScreenBrightness({success: (val) => {
@@ -42,21 +41,21 @@ Page({
    * Lifecycle function--Called when page is initially rendered
    */
   onReady() {
-
+    this.start()
   },
 
   /**
    * Lifecycle function--Called when page show
    */
   onShow() {
-    setTimeout(this.start, 1000)
+   
   },
 
   /**
    * Lifecycle function--Called when page hide
    */
   onHide() {
-
+    wx.setScreenBrightness({value: this.data.brightness})
   },
 
   /**
@@ -105,14 +104,17 @@ Page({
   },
 
   onTapEnd() {
-    Dialog.confirm({
+    wx.showModal({
       title: '提示',
-      message: '确定结束吗?',
-    }).then(() => {
-      wx.navigateBack()
-    }) .catch(() => {
-      // on cancel
-    });;
+      content: '确定结束吗？',
+      success (res) {
+        if (res.confirm) {
+          wx.navigateBack()
+        } else if (res.cancel) {
+          console.log('用户点击取消')
+        }
+      }
+    })
   },
 
   onBack() {
@@ -120,7 +122,6 @@ Page({
   },
 
   onStart() {
-    // myaudio.src=`/assets/${this.data.ring}.mp3`
     myaudio.pause()
     myaudio.src=`/assets/${this.data.ring}.mp3`
     myaudio.play()
