@@ -51,7 +51,7 @@
 
   <block>
     <view class="flex item-center justify-center player-button-container">
-      <view class="player-button flex item-center justify-center" bindtap="onTapStart">
+      <view class="player-button flex item-center justify-center" catchtap="onTapStart">
         <view class="player-button-inner"></view>
       </view>
     </view>

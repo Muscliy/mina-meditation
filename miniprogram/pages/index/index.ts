@@ -2,10 +2,9 @@
 // 获取应用实例
 const app = getApp<IAppOption>()
 const myaudio = wx.createInnerAudioContext()
-
 Page({
   data: {
-    motto: '念念不忘，必有回响',
+    motto: '明明在觉，了了常知',
     timer: 30,
     ring: '1',
     selectedRing: '1',

@@ -12,5 +12,6 @@
     "navigationStyle": "custom"
   },
   "sitemapLocation": "sitemap.json",
-  "requiredBackgroundModes": ["audio"]
+  "requiredBackgroundModes": ["audio"],
+  "lazyCodeLoading": "requiredComponents"
 }

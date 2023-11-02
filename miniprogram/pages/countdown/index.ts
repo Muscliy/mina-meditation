@@ -1,7 +1,6 @@
 // pages/countdown/index.ts
-import Dialog from '../../miniprogram_npm/@vant/weapp/dialog/dialog';
-
 const myaudio: any = wx.createInnerAudioContext();
+const backgroundAudioManager:any = wx.getBackgroundAudioManager()
 const waitSecode = 4;
 Page({
 
@@ -17,6 +16,7 @@ Page({
     finished: false,
     brightness: 1,
     canBrightness: true,
+    title: ""
   },
 
   /**
@@ -29,7 +29,6 @@ Page({
       totalTime: Number(t) * 60 + waitSecode,
       time: Number(t) * 60 * 1000 + waitSecode * 1000,
       ring: Number(r),
-      
     })
 
     wx.getScreenBrightness({success: (val) => {
@@ -48,7 +47,12 @@ Page({
    * Lifecycle function--Called when page show
    */
   onShow() {
-   
+    backgroundAudioManager.onEnded(()=>{
+        backgroundAudioManager.src=`https://wlhyos-web-dev.oss-cn-hangzhou.aliyuncs.com/resource/video/3.mp3`
+        backgroundAudioManager.title = '测试音频';
+        backgroundAudioManager.epname = '测试副标题';
+        backgroundAudioManager.play()
+      })
   },
 
   /**
@@ -62,7 +66,8 @@ Page({
    * Lifecycle function--Called when page unload
    */
   onUnload() {
-    myaudio.pause()
+    // myaudio.pause()
+    backgroundAudioManager.stop();
     this.pause()
     wx.setKeepScreenOn({keepScreenOn: false})
     wx.setScreenBrightness({value: this.data.brightness})
@@ -95,9 +100,12 @@ Page({
   },
 
   onFinish() {
-    myaudio.pause()
-    myaudio.src=`/assets/${this.data.ring}.mp3`
-    myaudio.play()
+    // myaudio.pause()
+    // myaudio.src=`/assets/${this.data.ring}.mp3`
+    // myaudio.play()
+    backgroundAudioManager.title = this.data.ring;
+    backgroundAudioManager.src=`https://wlhyos-web-dev.oss-cn-hangzhou.aliyuncs.com/resource/video/${this.data.ring}.mp3`
+    
     this.setData({
       finished: true
     })
@@ -122,9 +130,12 @@ Page({
   },
 
   onStart() {
-    myaudio.pause()
-    myaudio.src=`/assets/${this.data.ring}.mp3`
-    myaudio.play()
+    // myaudio.pause()
+    // myaudio.src=`/assets/${this.data.ring}.mp3`
+    // myaudio.play()
+    backgroundAudioManager.title = this.data.ring;
+    backgroundAudioManager.src=`https://wlhyos-web-dev.oss-cn-hangzhou.aliyuncs.com/resource/video/${this.data.ring}.mp3`
+    backgroundAudioManager.play()
   },
 
   start() {
